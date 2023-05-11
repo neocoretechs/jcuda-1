@@ -1549,6 +1549,7 @@ void setCudaResourceViewDesc(JNIEnv *env, jobject resourceViewDesc, cudaResource
 /**
  * Returns the native representation of the given Java object
  */
+/*
 cudaTextureDesc_v2 getCudaTextureDesc(JNIEnv *env, jobject texDesc)
 {
     cudaTextureDesc_v2 nativeTexDesc;
@@ -1593,12 +1594,13 @@ cudaTextureDesc_v2 getCudaTextureDesc(JNIEnv *env, jobject texDesc)
 
     return nativeTexDesc;
 }
-
+*/
 
 /**
  * Assigns the properties of the given native structure to the given
  * Java Object
  */
+/*
 void setCudaTextureDesc(JNIEnv *env, jobject texDesc, cudaTextureDesc_v2 &nativeTexDesc)
 {
     jintArray addressMode = (jintArray)env->GetObjectField(texDesc, cudaTextureDesc_addressMode);
@@ -1638,7 +1640,7 @@ void setCudaTextureDesc(JNIEnv *env, jobject texDesc, cudaTextureDesc_v2 &native
     env->SetIntField(texDesc, cudaTextureDesc_disableTrilinearOptimization, (jint)nativeTexDesc.disableTrilinearOptimization);
     env->SetIntField(texDesc, cudaTextureDesc_seamlessCubemap, (jint)nativeTexDesc.seamlessCubemap);
 }
-
+*/
 
 
 /**
@@ -1770,12 +1772,13 @@ void setCudaArraySparseProperties(JNIEnv* env, jobject javaObject, cudaArraySpar
  * Assigns the properties of the given native structure to the given
  * Java Object
  */
+/*
 void setCudaArrayMemoryRequirements(JNIEnv *env, jobject javaObject, cudaArrayMemoryRequirements &nativeObject)
 {
     env->SetLongField(javaObject, cudaArrayMemoryRequirements_size, (jlong)nativeObject.size);
     env->SetLongField(javaObject, cudaArrayMemoryRequirements_alignment, (jlong)nativeObject.alignment);
 }
-
+*/
 
 //=== CUDA functions =========================================================
 
@@ -3246,7 +3249,7 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaArrayGetMemoryRequirementsNa
         return JCUDA_INTERNAL_ERROR;
     }
     Logger::log(LOG_TRACE, "Executing cudaArrayGetPlane\n");
-
+/*
     cudaArrayMemoryRequirements nativeMemoryRequirements;
     cudaArray_t nativeArray = (cudaArray_t)getNativePointerValue(env, array);
 
@@ -3255,6 +3258,8 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaArrayGetMemoryRequirementsNa
     setCudaArrayMemoryRequirements(env, memoryRequirements, nativeMemoryRequirements);
 
     return result;
+    */
+        return JCUDA_INTERNAL_ERROR;
 }
 
 /*
@@ -3276,7 +3281,7 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaMipmappedArrayGetMemoryRequi
         return JCUDA_INTERNAL_ERROR;
     }
     Logger::log(LOG_TRACE, "Executing cudaArrayGetPlane\n");
-
+/*
     cudaArrayMemoryRequirements nativeMemoryRequirements;
     cudaMipmappedArray_t nativeMipmap = (cudaMipmappedArray_t)getNativePointerValue(env, mipmap);
 
@@ -3285,6 +3290,8 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaMipmappedArrayGetMemoryRequi
     setCudaArrayMemoryRequirements(env, memoryRequirements, nativeMemoryRequirements);
 
     return result;
+    */
+        return JCUDA_INTERNAL_ERROR;
 }
 
 
@@ -5409,7 +5416,7 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaCreateTextureObjectNative
     }
     // pResViewDesc may be NULL
     Logger::log(LOG_TRACE, "Executing cudaCreateTextureObject\n");
-
+/*
     cudaTextureObject_t nativePTexObject;
     cudaResourceDesc nativePResDesc = getCudaResourceDesc(env, pResDesc);
     cudaTextureDesc_v2 nativePTexDesc = getCudaTextureDesc(env, pTexDesc);
@@ -5424,7 +5431,10 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaCreateTextureObjectNative
     int result = cudaCreateTextureObject_v2(&nativePTexObject, &nativePResDesc, &nativePTexDesc, nativePResViewDescPointer);
 
     setNativePointerValue(env, pTexObject, (jlong)nativePTexObject);
+  
     return result;
+    */
+        return JCUDA_INTERNAL_ERROR;
 }
 
 
@@ -5494,12 +5504,14 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaGetTextureObjectTextureDescN
         return JCUDA_INTERNAL_ERROR;
     }
     Logger::log(LOG_TRACE, "Executing cudaGetTextureObjectTextureDesc\n");
-
+/*
     cudaTextureObject_t nativeTexObject = (cudaTextureObject_t)getNativePointerValue(env, texObject);
     cudaTextureDesc_v2 nativePTexDesc;
     int result = cudaGetTextureObjectTextureDesc_v2(&nativePTexDesc, nativeTexObject);
     setCudaTextureDesc(env, pTexDesc, nativePTexDesc);
     return result;
+    */
+        return JCUDA_INTERNAL_ERROR;
 }
 
 /*
@@ -5712,7 +5724,7 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaGraphicsGLRegisterImageNativ
     Logger::log(LOG_TRACE, "Executing cudaGraphicsGLRegisterImage\n");
 
     cudaGraphicsResource *nativeResource = NULL;
-    int result = cudaGraphicsGLRegisterImage(&nativeResource, (GLuint)image, (GLenum)target, (unsigned int)Flags);
+    int result = cudaGraphicsGLRegisterImage(&nativeResource, (unsigned int)image, (int)target, (unsigned int)Flags);
     setNativePointerValue(env, resource, (jlong)nativeResource);
     return result;
 }
@@ -5734,7 +5746,7 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaGraphicsGLRegisterBufferNati
     Logger::log(LOG_TRACE, "Executing cudaGraphicsGLRegisterBuffer\n");
 
     cudaGraphicsResource *nativeResource = NULL;
-    int result = cudaGraphicsGLRegisterBuffer(&nativeResource, (GLuint)buffer, (unsigned int)Flags);
+    int result = cudaGraphicsGLRegisterBuffer(&nativeResource, (unsigned int)buffer, (unsigned int)Flags);
     setNativePointerValue(env, resource, (jlong)nativeResource);
     return result;
 }
@@ -5750,7 +5762,7 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaGLSetBufferObjectMapFlagsNat
 {
     Logger::log(LOG_TRACE, "Executing cudaGLSetBufferObjectMapFlags\n");
 
-    return cudaGLSetBufferObjectMapFlags((GLuint)bufObj, (unsigned int)Flags);
+    return cudaGLSetBufferObjectMapFlags((unsigned int)bufObj, (unsigned int)Flags);
 }
 
 
@@ -5772,7 +5784,7 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaGLMapBufferObjectAsyncNative
     cudaStream_t nativeStream = (cudaStream_t)getNativePointerValue(env, stream);
 
     void *nativeDevPtr;
-    int result = cudaGLMapBufferObjectAsync(&nativeDevPtr, (GLuint)bufObj, nativeStream);
+    int result = cudaGLMapBufferObjectAsync(&nativeDevPtr, (unsigned int)bufObj, nativeStream);
     setPointer(env, devPtr, (jlong)nativeDevPtr);
     return result;
 }
@@ -5789,7 +5801,7 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaGLUnmapBufferObjectAsyncNati
     Logger::log(LOG_TRACE, "Executing cudaGLUnmapBufferObjectAsync\n");
 
     cudaStream_t nativeStream = (cudaStream_t)getNativePointerValue(env, stream);
-    return cudaGLUnmapBufferObjectAsync((GLuint)bufObj, nativeStream);
+    return cudaGLUnmapBufferObjectAsync((unsigned int)bufObj, nativeStream);
 }
 
 
@@ -5811,7 +5823,7 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaGLMapBufferObjectNative
     Logger::log(LOG_TRACE, "Executing cudaGLMapBufferObject\n");
 
     void *nativeDevPtr;
-    int result = cudaGLMapBufferObject(&nativeDevPtr, (GLuint)bufObj);
+    int result = cudaGLMapBufferObject(&nativeDevPtr, (unsigned int)bufObj);
     setPointer(env, devPtr, (jlong)nativeDevPtr);
     return result;
 }
@@ -5826,7 +5838,7 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaGLUnmapBufferObjectNative
 {
     Logger::log(LOG_TRACE, "Executing cudaGLUnmapBufferObject\n");
 
-    return cudaGLUnmapBufferObject((GLuint)bufObj);
+    return cudaGLUnmapBufferObject((unsigned int)bufObj);
 }
 
 /*
@@ -5839,7 +5851,7 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaGLUnregisterBufferObjectNati
 {
     Logger::log(LOG_TRACE, "Executing cudaGLUnregisterBufferObject\n");
 
-    return cudaGLUnregisterBufferObject((GLuint)bufObj);
+    return cudaGLUnregisterBufferObject((unsigned int)bufObj);
 }
 
 

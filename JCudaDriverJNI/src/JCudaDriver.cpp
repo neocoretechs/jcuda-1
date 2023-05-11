@@ -863,25 +863,28 @@ void setCUDA_ARRAY3D_DESCRIPTOR(JNIEnv *env, jobject pArrayDescriptor, CUDA_ARRA
 /**
  * Returns the native representation of the given Java object
  */
-CUDA_ARRAY_MEMORY_REQUIREMENTS getCUDA_ARRAY_MEMORY_REQUIREMENTS(JNIEnv *env, jobject javaObject)
+/*
+cudaArrayMemoryRequirements getCUDA_ARRAY_MEMORY_REQUIREMENTS(JNIEnv *env, jobject javaObject)
 {
-    CUDA_ARRAY_MEMORY_REQUIREMENTS nativeObject;
+	
+    cudaArrayMemoryRequirements nativeObject;
     nativeObject.size       = (size_t)        env->GetLongField(javaObject, CUDA_ARRAY_MEMORY_REQUIREMENTS_size);
     nativeObject.alignment  = (size_t)        env->GetLongField(javaObject, CUDA_ARRAY_MEMORY_REQUIREMENTS_alignment);
     return nativeObject;
 }
-
+*/
 /**
  * Assigns the properties of the given native structure to the given
  * Java Object
  */
-void setCUDA_ARRAY_MEMORY_REQUIREMENTS(JNIEnv *env, jobject javaObject, CUDA_ARRAY_MEMORY_REQUIREMENTS &nativeObject)
+/*
+void setCUDA_ARRAY_MEMORY_REQUIREMENTS(JNIEnv *env, jobject javaObject, cudaArrayMemoryRequirements &nativeObject)
 {
     env->SetLongField(javaObject, CUDA_ARRAY_MEMORY_REQUIREMENTS_size,       (jlong)nativeObject.size);
     env->SetLongField(javaObject, CUDA_ARRAY_MEMORY_REQUIREMENTS_alignment,  (jlong)nativeObject.alignment);
 }
 
-
+*/
 
 
 /**
@@ -3142,11 +3145,13 @@ JNIEXPORT jint JNICALL Java_jcuda_driver_JCudaDriver_cuModuleGetLoadingModeNativ
         return JCUDA_INTERNAL_ERROR;
     }
     Logger::log(LOG_TRACE, "Executing cuModuleGetLoadingMode\n");
-
+/*
     CUmoduleLoadingMode nativeMode;
     int result = cuModuleGetLoadingMode(&nativeMode);
     if (!set(env, mode, 0, (int)nativeMode)) return JCUDA_INTERNAL_ERROR;
     return result;
+    */
+        return JCUDA_INTERNAL_ERROR;
 }
 
 
@@ -5990,6 +5995,7 @@ JNIEXPORT jint JNICALL Java_jcuda_driver_JCudaDriver_cuMipmappedArrayGetSparsePr
  * Method:    cuArrayGetMemoryRequirementsNative
  * Signature: (Ljcuda/driver/CUDA_ARRAY_MEMORY_REQUIREMENTS;Ljcuda/driver/CUarray;Ljcuda/driver/CUdevice;)I
  */
+
 JNIEXPORT jint JNICALL Java_jcuda_driver_JCudaDriver_cuArrayGetMemoryRequirementsNative(JNIEnv *env, jclass cls, jobject memoryRequirements, jobject array, jobject device)
 {
     if (memoryRequirements == NULL)
@@ -6010,8 +6016,8 @@ JNIEXPORT jint JNICALL Java_jcuda_driver_JCudaDriver_cuArrayGetMemoryRequirement
 
     Logger::log(LOG_TRACE, "Executing cuArrayGetMemoryRequirements(memoryRequirements=%p, array=%p, device=%p)\n",
         memoryRequirements, array, device);
-
-    CUDA_ARRAY_MEMORY_REQUIREMENTS nativeMemoryRequirements;
+/*
+    cudaArrayMemoryRequirements nativeMemoryRequirements;
     CUarray nativeArray = (CUarray)getNativePointerValue(env, array);
     CUdevice nativeDevice = (CUdevice)(intptr_t)getNativePointerValue(env, device);
 
@@ -6020,6 +6026,8 @@ JNIEXPORT jint JNICALL Java_jcuda_driver_JCudaDriver_cuArrayGetMemoryRequirement
     setCUDA_ARRAY_MEMORY_REQUIREMENTS(env, memoryRequirements, nativeMemoryRequirements);
 
     return result;
+    */
+        return JCUDA_INTERNAL_ERROR;
 }
 
 /*
@@ -6047,8 +6055,8 @@ JNIEXPORT jint JNICALL Java_jcuda_driver_JCudaDriver_cuMipmappedArrayGetMemoryRe
 
     Logger::log(LOG_TRACE, "Executing cuMipmappedArrayGetMemoryRequirements(memoryRequirements=%p, mipmap=%p, device=%p)\n",
         memoryRequirements, mipmap, device);
-
-    CUDA_ARRAY_MEMORY_REQUIREMENTS nativeMemoryRequirements;
+/*
+    cudaArrayMemoryRequirements nativeMemoryRequirements;
     CUdevice nativeDevice = (CUdevice)(intptr_t)getNativePointerValue(env, device);
     CUmipmappedArray nativeMipmap = (CUmipmappedArray)getNativePointerValue(env, mipmap);
 
@@ -6057,6 +6065,8 @@ JNIEXPORT jint JNICALL Java_jcuda_driver_JCudaDriver_cuMipmappedArrayGetMemoryRe
     setCUDA_ARRAY_MEMORY_REQUIREMENTS(env, memoryRequirements, nativeMemoryRequirements);
 
     return result;
+    */
+        return JCUDA_INTERNAL_ERROR;
 }
 
 /*
