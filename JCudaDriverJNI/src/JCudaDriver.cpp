@@ -9480,7 +9480,7 @@ JNIEXPORT jint JNICALL Java_jcuda_driver_JCudaDriver_cuGraphInstantiateNative(JN
 	CUgraphExec nativePhGraphExec = NULL;
 	CUgraphNode nativePhErrorNode = NULL;
 	size_t nativeBufferSize = (size_t)bufferSize;
-
+    /*
 	int result = cuGraphInstantiate(&nativePhGraphExec, nativeHGraph, &nativePhErrorNode, nativeLogBuffer, nativeBufferSize);
 
 	setNativePointerValue(env, phGraphExec, (jlong)nativePhGraphExec);
@@ -9493,6 +9493,8 @@ JNIEXPORT jint JNICALL Java_jcuda_driver_JCudaDriver_cuGraphInstantiateNative(JN
 	env->ReleaseByteArrayElements(logBuffer, logBufferElements, 0);
 
 	return result;
+    */
+    return JCUDA_INTERNAL_ERROR;
 }
 
 /*
@@ -9923,13 +9925,15 @@ JNIEXPORT jint JNICALL Java_jcuda_driver_JCudaDriver_cuGraphExecUpdateNative
     CUgraph nativeHGraph = (CUgraph)getNativePointerValue(env, hGraph);
     CUgraphNode nativeHErrorNode_out = NULL;
     CUgraphExecUpdateResult nativeUpdateResult_out;
-
+    /*
     int result = cuGraphExecUpdate(nativeHGraphExec, nativeHGraph, &nativeHErrorNode_out, &nativeUpdateResult_out);
 
     setNativePointerValue(env, hErrorNode_out, (jlong)nativeHErrorNode_out);
     if (!set(env, updateResult_out, 0, (jint)nativeUpdateResult_out)) return JCUDA_INTERNAL_ERROR;
 
     return result;
+    */
+    return JCUDA_INTERNAL_ERROR;
 
 }
 
@@ -11212,10 +11216,13 @@ JNIEXPORT jint JNICALL Java_jcuda_driver_JCudaDriver_cuStreamGetCaptureInfoNativ
     CUstream nativeHStream = (CUstream)getNativePointerValue(env, hStream);
     CUstreamCaptureStatus nativeCaptureStatus;
     cuuint64_t nativeId;
+    /*
     int result = cuStreamGetCaptureInfo(nativeHStream, &nativeCaptureStatus, &nativeId);
     if (!set(env, captureStatus, 0, (jint)nativeCaptureStatus)) return JCUDA_INTERNAL_ERROR;
     if (!set(env, id, 0, (jlong)nativeId)) return JCUDA_INTERNAL_ERROR;
     return result;
+    */
+    return JCUDA_INTERNAL_ERROR;
 }
 
 /*

@@ -1139,7 +1139,7 @@ void setCudaChannelFormatDesc(JNIEnv *env, jobject desc, cudaChannelFormatDesc &
 
 /**
  * Returns the native representation of the given Java object
- */
+ 
 textureReference getTextureReference(JNIEnv *env, jobject texref)
 {
     textureReference nativeTexref;
@@ -1169,12 +1169,13 @@ textureReference getTextureReference(JNIEnv *env, jobject texref)
     nativeTexref.disableTrilinearOptimization = (int)env->GetIntField(texref, textureReference_disableTrilinearOptimization);
     return nativeTexref;
 }
+*/
 
 
 /**
  * Assigns the properties of the given native structure to the given
  * Java Object
- */
+ 
 void setTextureReference(JNIEnv *env, jobject texref, textureReference &nativeTexref)
 {
     env->SetIntField(texref, textureReference_normalized, (jint)nativeTexref.normalized);
@@ -1204,12 +1205,12 @@ void setTextureReference(JNIEnv *env, jobject texref, textureReference &nativeTe
     env->SetIntField(texref,   textureReference_disableTrilinearOptimization, (jint)nativeTexref.disableTrilinearOptimization);
 
 }
-
+*/
 
 
 /**
  * Returns the native representation of the given Java object
- */
+ 
 surfaceReference getSurfaceReference(JNIEnv *env, jobject surfref)
 {
     surfaceReference nativeSurfref;
@@ -1217,17 +1218,19 @@ surfaceReference getSurfaceReference(JNIEnv *env, jobject surfref)
     nativeSurfref.channelDesc = getCudaChannelFormatDesc(env, channelDesc);
     return nativeSurfref;
 }
+*/
 
 
 /**
  * Assigns the properties of the given native structure to the given
  * Java Object
- */
+ 
 void setSurfaceReference(JNIEnv *env, jobject surfref, surfaceReference &nativeSurfref)
 {
     jobject channelDesc = env->GetObjectField(surfref, surfaceReference_channelDesc);
     setCudaChannelFormatDesc(env, channelDesc, nativeSurfref.channelDesc);
 }
+*/
 
 
 
@@ -5191,6 +5194,7 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaBindTextureNative
     Logger::log(LOG_TRACE, "Executing cudaBindTexture\n");
 
     size_t nativeOffset;
+    /*
     textureReference nativeTexRef = getTextureReference(env, texRef);
     void *nativeDevPtr = getPointer(env, devPtr);
     cudaChannelFormatDesc nativeDesc = getCudaChannelFormatDesc(env, desc);
@@ -5200,6 +5204,8 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaBindTextureNative
         if (!set(env, offset, 0, (long)nativeOffset)) return JCUDA_INTERNAL_ERROR;
     }
     return result;
+    */
+    return JCUDA_INTERNAL_ERROR;
 }
 
 /*
@@ -5226,7 +5232,7 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaBindTexture2DNative
         return JCUDA_INTERNAL_ERROR;
     }
     Logger::log(LOG_TRACE, "Executing cudaBindTexture2D\n");
-
+    /*
 
     textureReference nativeTexRef = getTextureReference(env, texRef);
     cudaChannelFormatDesc nativeDesc = getCudaChannelFormatDesc(env, desc);
@@ -5235,6 +5241,8 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaBindTexture2DNative
     int result = cudaBindTexture2D(&nativeOffset, &nativeTexRef, nativeDevPtr, &nativeDesc, (size_t)width, (size_t)height, (size_t)pitch);
     if (!set(env, offset, 0, (long)nativeOffset)) return JCUDA_INTERNAL_ERROR;
     return result;
+    */
+    return JCUDA_INTERNAL_ERROR;
 }
 
 
@@ -5263,12 +5271,14 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaBindTextureToArrayNative
         return JCUDA_INTERNAL_ERROR;
     }
     Logger::log(LOG_TRACE, "Executing cudaBindTextureToArray\n");
-
+    /*
     textureReference nativeTexref = getTextureReference(env, texref);
     cudaArray *nativeArray = (cudaArray*)getNativePointerValue(env, array);
     cudaChannelFormatDesc nativeDesc = getCudaChannelFormatDesc(env, desc);
     int result = cudaBindTextureToArray(&nativeTexref, nativeArray, &nativeDesc);
     return result;
+    */
+    return JCUDA_INTERNAL_ERROR;
 }
 
 
@@ -5296,12 +5306,14 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaBindTextureToMipmappedArrayN
         return JCUDA_INTERNAL_ERROR;
     }
     Logger::log(LOG_TRACE, "Executing cudaBindTextureToMipmappedArray\n");
-
+    /*
     textureReference nativeTexref = getTextureReference(env, texref);
     cudaMipmappedArray *nativeMipmappedArray = (cudaMipmappedArray*)getNativePointerValue(env, mipmappedArray);
     cudaChannelFormatDesc nativeDesc = getCudaChannelFormatDesc(env, desc);
     int result = cudaBindTextureToMipmappedArray(&nativeTexref, nativeMipmappedArray, &nativeDesc);
     return result;
+    */
+    return JCUDA_INTERNAL_ERROR;
 }
 
 
@@ -5321,10 +5333,12 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaUnbindTextureNative
         return JCUDA_INTERNAL_ERROR;
     }
     Logger::log(LOG_TRACE, "Executing cudaUnbindTexture\n");
-
+    /*
     textureReference nativeTexref = getTextureReference(env, texref);
     int result = cudaUnbindTexture(&nativeTexref);
     return result;
+    */
+    return JCUDA_INTERNAL_ERROR;
 }
 
 
@@ -5349,10 +5363,13 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaGetTextureAlignmentOffsetNat
     Logger::log(LOG_TRACE, "Executing cudaGetTextureAlignmentOffset\n");
 
     size_t nativeOffset;
+    /*
     textureReference nativeTexref = getTextureReference(env, texref);
     int result = cudaGetTextureAlignmentOffset(&nativeOffset, &nativeTexref);
     if (!set(env, offset, 0, (long)nativeOffset)) return JCUDA_INTERNAL_ERROR;
     return result;
+    */
+    return JCUDA_INTERNAL_ERROR;
 }
 
 
@@ -5381,12 +5398,13 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaBindSurfaceToArrayNative
         return JCUDA_INTERNAL_ERROR;
     }
     Logger::log(LOG_TRACE, "Executing cudaBindSurfacetureToArray\n");
-
+    /*
     surfaceReference nativeSurfref = getSurfaceReference(env, surfref);
     cudaArray *nativeArray = (cudaArray*)getNativePointerValue(env, array);
     cudaChannelFormatDesc nativeDesc = getCudaChannelFormatDesc(env, desc);
     int result = cudaBindSurfaceToArray(&nativeSurfref, nativeArray, &nativeDesc);
     return result;
+    */
 }
 
 
@@ -6231,12 +6249,14 @@ JNIEXPORT jint JNICALL Java_jcuda_runtime_JCuda_cudaProfilerInitializeNative
 
     char *nativeConfigFile = convertString(env, configFile);
     char *nativeOutputFile = convertString(env, outputFile);
-
+    /*
     int result = cudaProfilerInitialize(nativeConfigFile, nativeOutputFile, (cudaOutputMode_t)outputMode);
 
     delete[] nativeConfigFile;
     delete[] nativeOutputFile;
     return result;
+    */
+    return JCUDA_INTERNAL_ERROR;
 }
 
 /*
